@@ -1,0 +1,62 @@
+model:
+  name: "CausalVariationalCSJDAD"
+  input_dim: 2
+  latent_dim: 32
+  num_env: 2
+  hidden_dim: 64
+  features_dim: 64
+  lambda_causal: 1
+  lambda_kl: 0.01
+  dt: 0.01
+  gamma: 0.7
+
+training:
+  batch_size: 16
+  epochs: 200
+  learning_rate: 0.001
+  weight_decay: 0.00001
+  optimizer: "Adam"
+  scheduler: "StepLR"
+  scheduler_step_size: 50
+  scheduler_gamma: 0.3
+  early_stopping_patience: 10
+  early_stopping_min_improvement: 0.00005
+  save_interval: 10
+
+data:
+  dataset: "ECG"
+  data_dir: "./data/datasets"
+  window_size: 200
+  stride: 1
+  val_ratio: 0.1
+  normalize: true
+  ecg:
+    filename: "chfdb_chf01_275"
+  
+evaluation:
+  metrics: ["auc", "f1", "precision", "recall"]
+  threshold_method: "best_f1"
+  threshold_percentile: 85
+  fixed_threshold: 0.5
+
+logging:
+  log_dir: "./results/logs"
+  save_model: true
+  model_save_dir: "./results/models"
+  log_level: "INFO"
+  save_predictions: true
+  prediction_save_dir: "./results/predictions"
+
+device:
+  use_cuda: true
+  cuda_device: 0
+  num_workers: 4
+  pin_memory: true
+
+random_seed: 42
+deterministic: true
+
+experiment:
+  name: "csjdad_experiment"
+  notes: "CSJD-AD anomaly detection experiment"
+  tags: ["anomaly_detection", "jump_diffusion", "causal"]

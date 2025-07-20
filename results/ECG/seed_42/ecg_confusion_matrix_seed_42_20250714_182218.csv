@@ -1,0 +1,8 @@
+Metric,Value
+True Positives (TP),2214
+False Positives (FP),1680
+True Negatives (TN),18525
+False Negatives (FN),1448
+Total Samples,23867
+Total Anomalies,3662
+Total Normal,20205

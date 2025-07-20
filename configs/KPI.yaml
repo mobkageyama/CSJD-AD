@@ -1,0 +1,69 @@
+model:
+  name: "CausalVariationalCSJDAD"
+  input_dim: 1
+  latent_dim: 32
+  num_env: 4
+  hidden_dim: 64
+  features_dim: 64
+  lambda_causal: 1.0
+  lambda_kl: 0.01
+  dt: 0.01
+  gamma: 0.8
+
+training:
+  batch_size: 64
+  epochs: 200
+  learning_rate: 0.0005
+  weight_decay: 0.00001
+  scheduler_step_size: 30
+  scheduler_gamma: 0.1
+  early_stopping_patience: 15
+  early_stopping_min_improvement: 0.0001
+
+data:
+  dataset: "KPI"
+  data_dir: "./data/datasets"
+  window_size: 200
+  stride: 1
+  val_ratio: 0.1
+  normalize: true
+  kpi:
+    kpi_id: null
+
+experiment:
+  name: "kpi_experiment"
+  device: "cuda"
+  save_model: true
+  save_predictions: true
+  metrics: ["precision", "recall", "f1", "auc", "aupr"]
+
+logging:
+  log_level: "INFO"
+  save_logs: true
+  log_interval: 100
+  save_model: true
+  save_predictions: true
+  log_dir: "./results/KPI/logs"
+  model_save_dir: "./results/KPI/models"
+  prediction_save_dir: "./results/KPI/predictions"
+
+random_seed: 42
+
+device:
+  use_cuda: true
+  cuda_device: 0
+  num_workers: 4
+  pin_memory: true
+
+results:
+  save_dir: "./results/KPI"
+  save_individual_results: true
+  save_aggregated_results: true
+  save_confusion_matrix: true
+
+evaluation:
+  threshold_method: "best_f1"
+  threshold_percentile: 95
+  fixed_threshold: 0.5
+  window_based_evaluation: true
+  point_based_evaluation: true 

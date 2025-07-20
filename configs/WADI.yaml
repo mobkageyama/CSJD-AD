@@ -1,0 +1,74 @@
+model:
+  name: "CausalVariationalCSJDAD"
+  input_dim: 127
+  latent_dim: 256
+  num_env: 4
+  hidden_dim: 512
+  features_dim: 512
+  lambda_causal: 1.0
+  lambda_kl: 0.01
+  dt: 0.01
+  gamma: 0.8
+
+training:
+  batch_size: 256
+  epochs: 200
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  optimizer: "Adam"
+  scheduler: "StepLR"
+  scheduler_step_size: 15
+  scheduler_gamma: 0.5
+  early_stopping_patience: 8
+  early_stopping_min_improvement: 0.0001
+  save_interval: 10
+
+data:
+  dataset: "WADI"
+  data_dir: "./data/datasets/WADI"
+  window_size: 200
+  stride: 10
+  val_ratio: 0.1
+  normalize: true
+
+  wadi:
+    filename: "WADI_attackdataLABLE.csv"
+    feature_dim: 127
+
+  msl:
+    filename: null
+    feature_dim: 55
+
+  smd:
+    filename: null
+
+  ecg:
+    filename: null
+
+evaluation:
+  metrics: ["auc_roc", "auc_pr", "f1", "precision", "recall"]
+  threshold_method: "best_f1"
+  threshold_percentile: 80
+  fixed_threshold: 0.5
+
+logging:
+  log_dir: "./results/logs"
+  save_model: true
+  model_save_dir: "./results/models"
+  log_level: "INFO"
+  save_predictions: true
+  prediction_save_dir: "./results/predictions"
+
+device:
+  use_cuda: true
+  cuda_device: 0
+  num_workers: 1
+  pin_memory: false
+
+random_seed: 42
+deterministic: true
+
+experiment:
+  name: "csjdad_wadi_experiment"
+  notes: "CSJD-AD anomaly detection experiment on WADI dataset (127 features) - Memory optimized"
+  tags: ["anomaly_detection", "jump_diffusion", "causal", "industrial_control", "127_features", "memory_optimized"]

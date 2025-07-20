@@ -1,0 +1,19 @@
+CSJD-AD Evaluation Summary
+=====================================
+Evaluation Method:    
+Original time series length: 172803
+Window size: 200
+Stride: 10
+Number of windows evaluated: 17261
+ anomaly rate: 0.0739
+Window scoring method: Mean of timestep scores within window
+Window labeling method: ANY anomaly rule (max of timestep labels)
+
+Metrics:
+AUC-ROC: 0.9024
+AU-PR: 0.6535
+F1: 0.7017
+Precision: 0.7868
+Recall: 0.6332
+FPR: 0.0137
+Threshold: 0.0551

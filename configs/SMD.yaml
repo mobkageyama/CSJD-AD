@@ -1,0 +1,75 @@
+model:
+  name: "CausalVariationalCSJDAD"
+  input_dim: 38
+  latent_dim: 64
+  num_env: 4
+  hidden_dim: 128
+  features_dim: 128
+  lambda_causal: 1.2
+  lambda_kl: 0.01
+  dt: 0.01
+  gamma: 0.8
+
+training:
+  batch_size: 32
+  epochs: 200
+  learning_rate: 0.0005
+  weight_decay: 0.0001
+  optimizer: "Adam"
+  scheduler: "StepLR"
+  scheduler_step_size: 40
+  scheduler_gamma: 0.5
+  early_stopping_patience: 10
+  early_stopping_min_improvement: 0.0001
+  save_interval: 10
+
+data:
+  dataset: "SMD"
+  data_dir: "./data/datasets"
+  window_size: 200
+  stride: 1
+  val_ratio: 0.1
+  normalize: true
+
+  smd:
+    filename: null
+
+  ecg:
+    filename: null
+
+  neurips_ts:
+    context_file: "context.csv"
+    point_file: "point.csv"
+
+  psm:
+    train_file: "train.csv"
+    test_file: "test.csv"
+    test_label_file: "test_label.csv"
+
+evaluation:
+  metrics: ["auc", "f1", "precision", "recall"]
+  threshold_method: "best_f1"
+  threshold_percentile: 80
+  fixed_threshold: 0.5
+
+logging:
+  log_dir: "./results/logs"
+  save_model: true
+  model_save_dir: "./results/models"
+  log_level: "INFO"
+  save_predictions: true
+  prediction_save_dir: "./results/predictions"
+
+device:
+  use_cuda: true
+  cuda_device: 0
+  num_workers: 4
+  pin_memory: true
+
+random_seed: 42
+deterministic: true
+
+experiment:
+  name: "csjdad_smd_experiment"
+  notes: "CSJD-AD anomaly detection experiment on SMD dataset"
+  tags: ["anomaly_detection", "jump_diffusion", "causal", "server_monitoring"] 
